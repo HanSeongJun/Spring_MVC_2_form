@@ -32,7 +32,9 @@ public class FormItemController {
     }
 
     @GetMapping("/add")
-    public String addForm() {
+    public String addForm(Model model) {
+        model.addAttribute("item", new Item());
+
         return "form/addForm";
     }
 
@@ -41,6 +43,7 @@ public class FormItemController {
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
+
         return "redirect:/form/items/{itemId}";
     }
 
@@ -48,6 +51,7 @@ public class FormItemController {
     public String editForm(@PathVariable Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
+
         return "form/editForm";
     }
 
@@ -56,6 +60,5 @@ public class FormItemController {
         itemRepository.update(itemId, item);
         return "redirect:/form/items/{itemId}";
     }
-
 }
 
